@@ -9,12 +9,12 @@ const profileRoutes = require("./routes/profile");
 
 const app = express();
 
-app.get("/", (res) => {
-  res.status(200).send("Hello Get");
-});
-
 // Middleware
 app.use(express.json());
+
+app.get("/", (req, res) => {
+  res.status(200).send("Hello Get");
+});
 
 // Use routes
 app.use("/api/auth", authRoutes);
