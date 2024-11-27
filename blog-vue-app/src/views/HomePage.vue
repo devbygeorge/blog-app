@@ -38,44 +38,24 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import ModalComponent from "@/components/ModalComponent.vue";
 import BlogCard from "@/components/blogs/BlogCard.vue";
 import BlogForm from "@/components/blogs/BlogForm.vue";
 
+import { useBlogStore } from "@/store/blogs";
 import { useAuthStore } from "@/store/auth";
+import { formatDate } from "@/utils/date";
 
 const authStore = useAuthStore();
+const blogStore = useBlogStore();
 
-const blogs = [
-  {
-    id: 1,
-    title: "Understanding Vue 3 Composition API",
-    description:
-      "Learn the basics and advanced features of Vue 3 Composition API.",
-    image: "/blogs/image-1.png",
-    date: "2024-11-26",
-    author: "johndoe",
-  },
-  {
-    id: 2,
-    title: "Building Reusable Components",
-    description:
-      "A guide to creating reusable and maintainable Vue components.",
-    image: "/blogs/image-2.jpg",
-    date: "2024-11-20",
-    author: "janesmith",
-  },
-  {
-    id: 3,
-    title: "Vue Router Deep Dive",
-    description:
-      "Everything you need to know about Vue Router and navigation guards.",
-    image: "/blogs/image-3.jpg",
-    date: "2024-11-18",
-    author: "emilydavis",
-  },
-];
+const { fetchBlogs } = blogStore;
+
+// Fetch blogs when the component is mounted
+onMounted(() => {
+  fetchBlogs();
+});
 
 const selectedDate = ref("");
 const isBlogFormModalOpen = ref(false);
@@ -83,9 +63,14 @@ const isBlogFormModalOpen = ref(false);
 // Filtered blogs
 const filteredBlogs = computed(() => {
   if (!selectedDate.value) {
-    return blogs; // Show all blogs if no date is selected
+    return blogStore.blogs; // Show all blogs if no date is selected
   }
-  return blogs.filter((blog) => blog.date === selectedDate.value);
+  return blogStore.blogs.filter((blog) => {
+    const formatSelectedDate = formatDate(selectedDate.value);
+    const formatBlogDate = formatDate(blog.date);
+
+    return formatSelectedDate === formatBlogDate;
+  });
 });
 
 // Methods
@@ -124,6 +109,7 @@ const closeModal = () => {
   align-items: center;
   gap: 16px;
   margin-bottom: 24px;
+  flex-wrap: wrap;
 }
 
 .home__date-picker {

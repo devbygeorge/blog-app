@@ -4,15 +4,18 @@
     <div class="blog-card__content">
       <h2 class="blog-card__title">{{ blog.title }}</h2>
       <p class="blog-card__description">{{ blog.description }}</p>
-      <p class="blog-card__meta">By @{{ blog.author }} | {{ blog.date }}</p>
+      <p class="blog-card__meta">
+        By @{{ blog?.author?.username }} |
+        {{ formatDate(blog?.date) }}
+      </p>
 
       <div class="blog-card__buttons">
-        <button class="blog-card__button" @click="viewBlog(blog.id)">
+        <button class="blog-card__button" @click="viewBlog(blog._id)">
           Read More
         </button>
 
         <button
-          v-if="authStore.userInfo?.username === blog.author"
+          v-if="authStore.userInfo?.username === blog?.author?.username"
           class="blog-card__edit-button"
           @click="editBlog(blog)"
         >
@@ -38,6 +41,7 @@ import { ref } from "vue";
 import ModalComponent from "@/components/ModalComponent.vue";
 import BlogForm from "@/components/blogs/BlogForm.vue";
 import { useAuthStore } from "@/store/auth";
+import { formatDate } from "@/utils/date";
 
 const authStore = useAuthStore();
 
@@ -81,6 +85,8 @@ const closeModal = () => {
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease-in-out;
+
+  max-width: 400px;
 }
 
 .blog-card:hover {
