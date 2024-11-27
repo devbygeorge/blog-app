@@ -1,12 +1,12 @@
 <template>
   <div class="comment-card">
     <p class="comment-card__meta">
-      <strong>@{{ comment.author }}</strong> | {{ comment.date }}
+      <strong>@{{ comment.author.username }}</strong> | {{ formattedDate }}
     </p>
     <p class="comment-card__text">{{ comment.text }}</p>
 
     <button
-      v-if="authStore.userInfo?.username === comment.author"
+      v-if="authStore.userInfo?.username === comment.author.username"
       @click="editComment(index)"
       class="comments-list__edit"
     >
@@ -16,7 +16,9 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
 import { useAuthStore } from "@/store/auth";
+import { formatDate } from "@/utils/date";
 
 const authStore = useAuthStore();
 
@@ -27,6 +29,8 @@ const props = defineProps({
   },
   editComment: Function,
 });
+
+const formattedDate = computed(() => formatDate(props?.comment?.date));
 </script>
 
 <style scoped>
