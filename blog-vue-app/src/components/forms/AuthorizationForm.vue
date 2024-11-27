@@ -2,8 +2,8 @@
   <form @submit.prevent="onSubmit" class="auth-form">
     <h2>Login</h2>
     <div class="auth-form__field">
-      <label for="username">Username</label>
-      <input id="username" v-model="username" type="text" required />
+      <label for="email">Email</label>
+      <input id="email" v-model="email" type="email" required />
     </div>
     <div class="auth-form__field">
       <label for="password">Password</label>
@@ -25,16 +25,29 @@
 
 <script setup>
 import { ref } from "vue";
-import { defineEmits } from "vue";
+import { login } from "@/services/authService";
+import { useAuthStore } from "@/store/auth";
 
-const username = ref("");
+const authStore = useAuthStore();
+
+const email = ref("");
 const password = ref("");
 
-const emit = defineEmits(["openRegistration", "openRecovery"]);
+const emit = defineEmits(["openRegistration", "openRecovery", "closeModal"]);
 
-const onSubmit = () => {
-  alert(`Username: ${username.value}, Password: ${password.value}`);
-  // Implement your login logic here
+const onSubmit = async () => {
+  try {
+    const data = await login({
+      email: email.value,
+      password: password.value,
+    });
+    authStore.login(data.user, data.token); // Save user and token
+    alert("Login successful!");
+    emit("closeModal");
+  } catch (err) {
+    console.log(err);
+    alert(err.response?.data || "Login failed!");
+  }
 };
 
 const openRegistration = () => {

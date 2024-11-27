@@ -6,7 +6,7 @@
     <p class="comment-card__text">{{ comment.text }}</p>
 
     <button
-      v-if="authStore.userInfo.userName === comment.author"
+      v-if="authStore.userInfo?.username === comment.author"
       @click="editComment(index)"
       class="comments-list__edit"
     >

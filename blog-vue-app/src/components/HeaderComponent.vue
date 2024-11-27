@@ -6,7 +6,11 @@
       </div>
       <nav class="header__nav">
         <router-link to="/" class="header__link">Home</router-link>
-        <router-link v-if="authStore.isAuthorized" to="/profile" class="header__link">
+        <router-link
+          v-if="authStore.isAuthorized"
+          to="/profile"
+          class="header__link"
+        >
           Profile
         </router-link>
         <button
@@ -16,7 +20,11 @@
         >
           Authorize
         </button>
-        <button v-if="authStore.isAuthorized" @click="logout" class="header__button">
+        <button
+          v-if="authStore.isAuthorized"
+          @click="logout"
+          class="header__button"
+        >
           Logout
         </button>
       </nav>
@@ -26,6 +34,7 @@
       <AuthorizationForm
         @openRegistration="openRegistrationModal"
         @openRecovery="openRecoveryModal"
+        @closeModal="closeModal"
       />
     </ModalComponent>
 

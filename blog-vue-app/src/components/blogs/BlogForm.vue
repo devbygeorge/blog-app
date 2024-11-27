@@ -35,7 +35,7 @@
       <label for="author">Author</label>
       <input
         id="author"
-        v-model="authStore.userInfo.userName"
+        v-model="form.author"
         type="text"
         readonly
       />
@@ -66,7 +66,6 @@
 
 <script setup>
 import { ref } from "vue";
-import { defineProps, defineEmits } from "vue";
 import Editor from "@tinymce/tinymce-vue";
 
 import { useAuthStore } from "@/store/auth";

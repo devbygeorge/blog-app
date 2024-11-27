@@ -12,7 +12,7 @@
         </button>
 
         <button
-          v-if="authStore.userInfo.userName === blog.author"
+          v-if="authStore.userInfo?.username === blog.author"
           class="blog-card__edit-button"
           @click="editBlog(blog)"
         >
