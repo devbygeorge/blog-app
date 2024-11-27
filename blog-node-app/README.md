@@ -43,7 +43,7 @@ blog-node-app/
 1. Clone the repository:
 
    ```bash
-   git clone git@github.com:devbygeorge/blog-app.git
+   git clone https://github.com/devbygeorge/blog-app.git
    cd blog-node-app
    ```
 
