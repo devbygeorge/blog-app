@@ -3,7 +3,7 @@
     <img :src="blog.image" alt="Blog Image" class="blog-card__image" />
     <div class="blog-card__content">
       <h2 class="blog-card__title">{{ blog.title }}</h2>
-      <p class="blog-card__description">{{ blog.description }}</p>
+      <p class="blog-card__description">{{ blog.content }}</p>
       <p class="blog-card__meta">
         By @{{ blog?.author?.username }} |
         {{ formatDate(blog?.date) }}

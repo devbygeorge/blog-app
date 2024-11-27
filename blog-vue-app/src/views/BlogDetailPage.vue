@@ -1,48 +1,44 @@
 <template>
   <div class="blog-detail">
-    <img :src="blog.image" alt="Blog Image" class="blog-detail__image" />
-    <h1 class="blog-detail__title">{{ blog.title }}</h1>
-    <p class="blog-detail__meta">By @{{ blog.author }} | {{ blog.date }}</p>
-    <div class="blog-detail__description" v-html="blog.description"></div>
+    <img :src="blog?.image" alt="Blog Image" class="blog-detail__image" />
+    <h1 class="blog-detail__title">{{ blog?.title }}</h1>
+    <p class="blog-detail__meta">
+      By @{{ blog?.author?.username }} | {{ formattedDate }}
+    </p>
+    <div class="blog-detail__description" v-html="blog?.content"></div>
 
-    <CommentsSection :comments="blog.comments" />
+    <CommentsSection :comments="blog?.comments || []" />
   </div>
 </template>
 
 <script setup>
 import CommentsSection from "@/components/comments/CommentsSection.vue";
 
-const blog = {
-  id: 1,
-  title: "Understanding Vue 3 Composition API",
-  description: `
-    <p>The Vue 3 Composition API is a powerful addition to the Vue ecosystem, enabling better reuse of logic and flexibility in writing components.</p>
-    <p>This blog post covers the basics and advanced features of the Composition API.</p>
-  `,
-  image: "/blogs/image-1.png",
-  date: "2024-11-26",
-  author: "johndoe",
-  comments: [
-    {
-      id: 1,
-      author: "janesmith",
-      date: "2024-11-27",
-      text: "Great article! I found the examples really helpful.",
-    },
-    {
-      id: 2,
-      author: "emilydavis",
-      date: "2024-11-27",
-      text: "Thanks for sharing. The Composition API has truly made my workflow more efficient.",
-    },
-    {
-      id: 3,
-      author: "johndoe",
-      date: "2024-11-27",
-      text: "Thanks you. Very useful information.",
-    },
-  ],
+import { useRoute } from "vue-router";
+import { ref, onMounted, computed } from "vue";
+
+import { getBlog } from "@/services/blogService";
+import { formatDate } from "@/utils/date";
+
+const route = useRoute(); // Access route parameters
+const blog = ref(null); // State to hold the blog details
+const blogId = route.params.id; // Extract blog ID from route
+
+const fetchBlogDetails = async () => {
+  try {
+    const response = await getBlog(blogId);
+    blog.value = response;
+  } catch (error) {
+    console.error("Error fetching blog details:", error);
+  }
 };
+
+const formattedDate = computed(() =>
+  blog?.value?.date ? formatDate(blog?.value?.date) : ""
+);
+
+// Fetch the blog details when the component is mounted
+onMounted(fetchBlogDetails);
 </script>
 
 <style scoped>
