@@ -50,8 +50,8 @@
       />
     </div>
 
-    <!-- Submit Button -->
-    <button type="submit" class="registration-form__button">Register</button>
+    <span v-if="isLoading">Logging in...</span>
+    <button v-else type="submit" class="registration-form__button">Register</button>
 
     <!-- Error Message -->
     <p v-if="errorMessage" class="registration-form__error">
@@ -77,8 +77,12 @@ const form = reactive({
 });
 
 const errorMessage = ref("");
+const isLoading = ref(false); // Loading state
 
 const onSubmit = async () => {
+  isLoading.value = true; // Disable button and show loading
+  errorMessage.value = "";
+
   // Basic Validation
   if (form.password !== form.repeatPassword) {
     errorMessage.value = "Passwords do not match.";
@@ -103,6 +107,8 @@ const onSubmit = async () => {
     emit("closeModal");
   } catch (err) {
     errorMessage.value = err.response?.data;
+  } finally {
+    isLoading.value = false; // Re-enable button
   }
 };
 </script>

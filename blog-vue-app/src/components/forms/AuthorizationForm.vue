@@ -9,7 +9,8 @@
       <label for="password">Password</label>
       <input id="password" v-model="password" type="password" required />
     </div>
-    <button type="submit" class="auth-form__button">Login</button>
+    <span v-if="isLoading">Logging in...</span>
+    <button v-else type="submit" class="auth-form__button">Login</button>
 
     <!-- Navigation Buttons -->
     <div class="auth-form__links">
@@ -32,10 +33,13 @@ const authStore = useAuthStore();
 
 const email = ref("");
 const password = ref("");
+const isLoading = ref(false); // Loading state
 
 const emit = defineEmits(["openRegistration", "openRecovery", "closeModal"]);
 
 const onSubmit = async () => {
+  isLoading.value = true; // Disable button and show loading
+
   try {
     const data = await login({
       email: email.value,
@@ -47,6 +51,8 @@ const onSubmit = async () => {
   } catch (err) {
     console.log(err);
     alert(err.response?.data || "Login failed!");
+  } finally {
+    isLoading.value = false; // Re-enable button
   }
 };
 
