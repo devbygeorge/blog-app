@@ -62,6 +62,12 @@
 
 <script setup>
 import { reactive, ref } from "vue";
+import { register } from "@/services/authService";
+import { useAuthStore } from "@/store/auth";
+
+const authStore = useAuthStore();
+
+const emit = defineEmits(["closeModal"]);
 
 const form = reactive({
   username: "",
@@ -72,7 +78,7 @@ const form = reactive({
 
 const errorMessage = ref("");
 
-const onSubmit = () => {
+const onSubmit = async () => {
   // Basic Validation
   if (form.password !== form.repeatPassword) {
     errorMessage.value = "Passwords do not match.";
@@ -84,16 +90,20 @@ const onSubmit = () => {
     return;
   }
 
-  // Simulate successful registration
-  alert("Registration successful!");
-  errorMessage.value = "";
-  console.log("Form submitted:", form);
+  try {
+    const data = await register({
+      username: form.username,
+      email: email.value,
+      password: password.value,
+    });
+    authStore.login(data.user, data.token); // Save user and token
 
-  // Clear the form
-  form.username = "";
-  form.email = "";
-  form.password = "";
-  form.repeatPassword = "";
+    alert("Registration successful!");
+    errorMessage.value = "";
+    emit("closeModal");
+  } catch (err) {
+    errorMessage.value = err.response?.data;
+  }
 };
 </script>
 

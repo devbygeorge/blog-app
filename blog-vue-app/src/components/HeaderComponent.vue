@@ -40,7 +40,7 @@
 
     <!-- Registration Modal -->
     <ModalComponent :isOpen="isRegistrationModalOpen" @close="closeModal">
-      <RegistrationForm />
+      <RegistrationForm @closeModal="closeModal" />
     </ModalComponent>
 
     <!-- Password Recovery Modal -->
