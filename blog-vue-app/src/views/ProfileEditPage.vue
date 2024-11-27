@@ -34,11 +34,19 @@
         </div>
 
         <div class="profile-edit__field">
-          <label for="profilePic">Profile Picture</label>
+          <label for="profilePic"
+            >Profile Picture
+            <span class="profile-edit__field-small-label"
+              >(Coming Soon)</span
+            ></label
+          >
           <input id="profilePic" type="file" @change="handleFileUpload" />
         </div>
 
-        <button type="submit" class="profile-edit__save-button">Save</button>
+        <span v-if="isLoading">Updating...</span>
+        <button v-else type="submit" class="profile-edit__save-button">
+          Save
+        </button>
       </form>
     </div>
   </div>
@@ -46,14 +54,41 @@
 
 <script setup>
 import { ref } from "vue";
+import { editPassword } from "@/services/profileService";
+const isLoading = ref(false); // Loading state
 
-// Simulated user data (replace with actual user state management)
 const formData = ref({
   currentPassword: null,
   newPassword: null,
   repeatNewPassword: null,
   profilePic: null, // Handle image uploads
 });
+
+const updateProfile = async () => {
+  // Basic Validation
+  if (formData.value.newPassword !== formData.value.repeatNewPassword) {
+    alert("New passwords do not match.");
+    return;
+  }
+
+  isLoading.value = true;
+
+  try {
+    const data = await editPassword({
+      currentPassword: formData.value.currentPassword,
+      newPassword: formData.value.newPassword,
+    });
+    alert("Password updated successfully!");
+    formData.value.currentPassword = null;
+    formData.value.newPassword = null;
+    formData.value.repeatNewPassword = null;
+  } catch (err) {
+    console.log(err);
+    alert(err.response?.data || "Password update failed!");
+  } finally {
+    isLoading.value = false; // Re-enable button
+  }
+};
 
 const handleFileUpload = (event) => {
   const file = event.target.files[0];
@@ -64,11 +99,6 @@ const handleFileUpload = (event) => {
     };
     reader.readAsDataURL(file);
   }
-};
-
-const updateProfile = () => {
-  alert("Profile updated successfully!");
-  // Update profile logic (e.g., API call or state management)
 };
 </script>
 
@@ -121,5 +151,9 @@ const updateProfile = () => {
 
 .profile-edit__save-button:hover {
   background-color: #0056b3;
+}
+
+.profile-edit__field-small-label {
+  font-size: 9px;
 }
 </style>

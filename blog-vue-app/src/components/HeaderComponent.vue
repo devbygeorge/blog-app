@@ -58,11 +58,14 @@ import RegistrationForm from "@/components/forms/RegistrationForm.vue";
 import PasswordRecoveryForm from "@/components/forms/PasswordRecoveryForm.vue";
 
 import { useAuthStore } from "@/store/auth";
+import { useRouter } from "vue-router";
 
 const authStore = useAuthStore();
+const router = useRouter();
 
 const logout = () => {
   authStore.logout();
+  router.push("/"); // Redirect to home page
   alert("You have been logged out.");
 };
 

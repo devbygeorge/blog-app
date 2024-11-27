@@ -3,6 +3,7 @@ import HomePage from "@/views/HomePage.vue";
 import BlogDetailPage from "@/views/BlogDetailPage.vue";
 import ProfilePage from "@/views/ProfilePage.vue";
 import ProfileEditPage from "@/views/ProfileEditPage.vue";
+// import { useAuthStore } from "@/store/auth";
 
 const routes = [
   { path: "/", name: "Home", component: HomePage },
@@ -17,8 +18,8 @@ const router = createRouter({
 });
 
 // router.beforeEach((to, from, next) => {
-//   const userStore = useUserStore();
-//   if (to.meta.requiresAuth && !userStore.token) {
+//   const authStore = useAuthStore();
+//   if (to.meta.requiresAuth && !authStore.token) {
 //     // Show login popup or redirect to home
 //     next("/");
 //   } else {

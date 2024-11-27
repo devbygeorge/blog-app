@@ -6,7 +6,7 @@
         alt="Profile Picture"
         class="profile__picture"
       />
-      <h2 class="profile__userName">@{{ user.userName }}</h2>
+      <h2 class="profile__userName">@{{ user.username }}</h2>
       <p class="profile__email">{{ user.email }}</p>
       <button class="profile__edit-button" @click="goToEditProfile">
         Edit Profile
@@ -18,12 +18,15 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { ref } from "vue";
+import { useAuthStore } from "@/store/auth";
+
+const authStore = useAuthStore();
 
 // Example user data (replace with real user data from your store or API)
 const user = ref({
-  userName: "johndoe",
-  email: "john.doe@example.com",
-  profilePic: "/profile-placeholder.jpg", // Replace with a real image URL
+  username: authStore.user?.username || "",
+  email: authStore.user?.email || "",
+  profilePic: authStore.user?.profile?.avatar || "/profile-placeholder.jpg", // Replace with a real image URL
 });
 
 const router = useRouter();

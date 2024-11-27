@@ -51,7 +51,9 @@
     </div>
 
     <span v-if="isLoading">Logging in...</span>
-    <button v-else type="submit" class="registration-form__button">Register</button>
+    <button v-else type="submit" class="registration-form__button">
+      Register
+    </button>
 
     <!-- Error Message -->
     <p v-if="errorMessage" class="registration-form__error">
@@ -80,9 +82,6 @@ const errorMessage = ref("");
 const isLoading = ref(false); // Loading state
 
 const onSubmit = async () => {
-  isLoading.value = true; // Disable button and show loading
-  errorMessage.value = "";
-
   // Basic Validation
   if (form.password !== form.repeatPassword) {
     errorMessage.value = "Passwords do not match.";
@@ -93,6 +92,9 @@ const onSubmit = async () => {
     errorMessage.value = "Invalid email address.";
     return;
   }
+
+  isLoading.value = true; // Disable button and show loading
+  errorMessage.value = "";
 
   try {
     const data = await register({
