@@ -2,11 +2,6 @@
 
 A Node.js-powered blog application that provides features such as user authentication, blog creation, comment management, and profile updates. This app uses **Express.js** for the backend and is deployed on **Vercel**.
 
-## 🚀 Live Demo
-
-Check out the live application:  
-👉 [Blog Node App](https://blog-node-app-eight.vercel.app/)
-
 ---
 
 ## 📂 Project Structure

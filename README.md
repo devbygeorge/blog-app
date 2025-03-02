@@ -4,8 +4,8 @@
 
 This repository serves as the main entry point for the **Blog Application**, which is divided into two parts:
 
-1. **Backend API**: Hosted on Vercel – [https://blog-node-app-eight.vercel.app/](https://blog-node-app-eight.vercel.app/)
-2. **Frontend Vue App**: Hosted on Vercel – [https://blog-vue-app-beta.vercel.app/](https://blog-vue-app-beta.vercel.app/)
+1. **Backend API**
+2. **Frontend Vue App**
 
 ---
 

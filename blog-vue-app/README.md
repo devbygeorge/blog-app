@@ -4,9 +4,6 @@
 
 This is a simple blogging application built with **Vue 3**, **Pinia**, and **Vite**. The app allows users to view blogs, filter them by date, and view detailed blog pages.
 
-### 🚀 Live Demo
-Check out the live application here: [Blog Vue App](https://blog-vue-app-beta.vercel.app/)
-
 ### 🛠 Features
 - **View Blogs**: Browse a list of blogs with titles, descriptions, authors, and publication dates.
 - **Blog Details**: View detailed information for a single blog.
